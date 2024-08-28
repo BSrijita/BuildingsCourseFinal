@@ -16,11 +16,6 @@ model Step2 "With Ventilation"
     annotation (Placement(transformation(extent={{-90,-18},{-70,2}})));
   Modelica.Blocks.Sources.Constant airFlow(k=0.05)
     annotation (Placement(transformation(extent={{-60,38},{-40,58}})));
-  Modelica.Blocks.Sources.CombiTimeTable SenGai(
-    table=[0*24 + 0,5; 0*24 + 18,2; 0*24 + 24,5],
-    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-    timeScale(displayUnit="h") = 3600)          annotation (Placement(transformation(extent={{4,44},{24,64}})));
   Buildings.ThermalZones.ISO13790.Zone5R1C.ZoneHVAC zonHVAC(
     airRat=0.41,
     AWin={0,0,12,6},
@@ -41,6 +36,12 @@ model Step2 "With Ventilation"
     gFac=0.5,
     redeclare package Medium = Buildings.Media.Air,
     nPorts=2)                                       annotation (Placement(transformation(extent={{54,6},{82,34}})));
+  Modelica.Blocks.Sources.CombiTimeTable SenGai(
+    table=[0,5*120; 8,2*120; 18,5*120; 24,5*120],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    timeScale(displayUnit="h") = 3600)          annotation (Placement(transformation(extent={{4,44},{
+            24,64}})));
 equation
   connect(out.ports[1],fan. port_a) annotation (Line(points={{-70,-9},{-32,-9},{-32,22},{-26,22}},
                               color={0,127,255}));
@@ -54,10 +55,11 @@ equation
       points={{78,31},{78,84},{-74,84}},
       color={255,204,51},
       thickness=0.5));
-  connect(SenGai.y[1], zonHVAC.intSenGai) annotation (Line(points={{25,54},{44,54},{44,30},{52,30}}, color={0,0,127}));
   connect(latGai.y, zonHVAC.intLatGai) annotation (Line(points={{27,-38},{42,-38},{42,24},{52,24}}, color={0,0,127}));
   connect(fan.port_b, zonHVAC.ports[1]) annotation (Line(points={{-6,22},{44,22},{44,10.825},{55,10.825}}, color={0,127,255}));
   connect(out.ports[2], zonHVAC.ports[2]) annotation (Line(points={{-70,-7},{-70,-10},{-32,-10},{-32,8},{40,8},{40,22},{44,22},{44,10},{55,10},{55,12.775}}, color={0,127,255}));
+  connect(SenGai.y[1], zonHVAC.intSenGai) annotation (Line(points={{25,54},{36,
+          54},{36,30},{52,30}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),

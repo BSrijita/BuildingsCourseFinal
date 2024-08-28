@@ -13,7 +13,8 @@ model Radiator
     redeclare package Medium = Buildings.Media.Water,
     m_flow_nominal=0.05,
     dp_nominal=0,
-    QMin_flow=-230) annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+    QMin_flow=-6000)
+                    annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
 equation
   connect(port_supply, Rad.port_a) annotation (Line(points={{-102,0},{-12,0}}, color={0,127,255}));
   connect(Rad.port_b, port_return) annotation (Line(points={{8,0},{99,0}}, color={0,127,255}));
